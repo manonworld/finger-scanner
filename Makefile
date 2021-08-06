@@ -1,2 +1,3 @@
 run:
-	ionic cordova run android --verbose
+	@npm install;
+	@ionic cordova run android --verbose;
