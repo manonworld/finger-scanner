@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Authenticate
+      Authenticate & Send Request
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,7 +9,13 @@
 <ion-content [fullscreen]="true" class="ion-padding">
 
   <h4>Tap the button to Authenticate</h4>
-  <ion-button expand="full" fill="outline" (click)="authenticate()">Fingerprint Authenticate
+  <ion-button expand="full" fill="outline" (click)="authenticate()">
+    Fingerprint Authenticate
+  </ion-button>
+
+  <h4>Tap the button to Send Request</h4>
+  <ion-button expand="full" fill="outline" (click)="sendRequest()">
+    Send Request
   </ion-button>
 
 </ion-content>

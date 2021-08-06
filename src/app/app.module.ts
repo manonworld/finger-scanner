@@ -8,13 +8,21 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
+import { HTTP } from '@ionic-native/http/ngx';
 
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
-  providers: [FingerprintAIO, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    FingerprintAIO, 
+    HTTP, 
+    { 
+      provide: RouteReuseStrategy, 
+      useClass: IonicRouteStrategy 
+    }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
