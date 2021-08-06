@@ -9,25 +9,12 @@ import { HTTP } from '@ionic-native/http/ngx';
 })
 export class HomePage {
 
+  dbData: any;
+
   constructor(private faio: FingerprintAIO, private http: HTTP) { }
 
   sendRequest() {
-    this.http.get('https://run.mocky.io/v3/b9f61a48-bb5b-44e3-affe-7d17f22c184b', {}, {})
-      .then(data => {
-        alert(data.status);
-        alert(data.data);
-        alert(data.headers);
-      })
-      .catch(error => {
-        alert(error.status);
-        alert(error.error);
-        alert(error.headers);
-      });
-  }
-
-  authenticate() {
     this.faio.isAvailable().then((result: any) => {
-      alert(result)
       this.faio.show({
         cancelButtonTitle: 'Cancel',
         description: "You can authenticate using your fingerprint associated with this device",
@@ -37,18 +24,25 @@ export class HomePage {
         subtitle: 'Authenticate Using Fingerprint'
       })
         .then((result: any) => {
-          alert(result)
-          alert("Successfully Authenticated!")
+          this.http.get('https://run.mocky.io/v3/b9f61a48-bb5b-44e3-affe-7d17f22c184b', {}, {})
+            .then(data => {
+              this.dbData = JSON.parse(data.data).data;
+            })
+            .catch(error => {
+              console.log(error.status);
+              console.log(error.error);
+              console.log(error.headers);
+            });
         })
         .catch((error: any) => {
-          alert(error)
-          alert("Match not found!")
+          alert(error);
         });
 
     })
       .catch((error: any) => {
-        alert(error)
+        alert(error);
       });
+    
   }
 
 

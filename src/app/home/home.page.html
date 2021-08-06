@@ -8,14 +8,16 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
 
-  <h4>Tap the button to Authenticate</h4>
-  <ion-button expand="full" fill="outline" (click)="authenticate()">
-    Fingerprint Authenticate
+  <h4>Authenticated Data</h4>
+  <ion-button expand="full" fill="outline" (click)="sendRequest()">
+    Get Secure Data
   </ion-button>
 
-  <h4>Tap the button to Send Request</h4>
-  <ion-button expand="full" fill="outline" (click)="sendRequest()">
-    Send Request
-  </ion-button>
+  <ion-list>
+    <ion-item *ngFor="let item of dbData">
+      <p>{{item.key_one}}</p>&nbsp;&nbsp;
+      <p>{{item.key_two}}</p>
+    </ion-item>
+  </ion-list>
 
 </ion-content>
