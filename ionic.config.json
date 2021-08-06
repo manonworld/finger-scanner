@@ -1,0 +1,7 @@
+{
+  "name": "fingerscanner",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
