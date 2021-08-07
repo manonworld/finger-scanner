@@ -16,8 +16,8 @@ import { HTTP } from '@ionic-native/http/ngx';
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [
-    FingerprintAIO, 
-    HTTP, 
+    FingerprintAIO,
+    HTTP,
     { 
       provide: RouteReuseStrategy, 
       useClass: IonicRouteStrategy 
