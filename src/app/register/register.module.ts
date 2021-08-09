@@ -8,6 +8,7 @@ import { RegisterPageRoutingModule } from './register-routing.module';
 
 import { RegisterPage } from './register.page';
 import { HomeButtonComponent } from '../home-button/home-button.component';
+import { FormComponent } from './form/form.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { HomeButtonComponent } from '../home-button/home-button.component';
     IonicModule,
     RegisterPageRoutingModule
   ],
-  declarations: [RegisterPage, HomeButtonComponent]
+  declarations: [RegisterPage, HomeButtonComponent, FormComponent]
 })
 export class RegisterPageModule {}
