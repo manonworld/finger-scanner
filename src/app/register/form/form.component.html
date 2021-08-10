@@ -1,22 +1,24 @@
-<ion-list lines="full" class="ion-no-margin">
+<form [formGroup]="account" (ngSubmit)="createAccount()">
+  <ion-list lines="full" class="ion-no-margin">
 
-  <ion-item>
-    <ion-label position="floating">Email</ion-label>
-    <ion-input type="email"></ion-input>
-  </ion-item>
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">Password</ion-label>
-    <ion-input type="password"></ion-input>
-  </ion-item>
+    <ion-item>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">Password Confirmation</ion-label>
-    <ion-input type="password"></ion-input>
-  </ion-item>
+    <ion-item>
+      <ion-label position="floating">Password Confirmation</ion-label>
+      <ion-input type="password" formControlName="confirmation"></ion-input>
+    </ion-item>
 
-  <ion-button expand="block" (click)="createAccount()">
-    Create Account
-  </ion-button>
+    <ion-button expand="block" type="submit" [disabled]="!account.valid">
+      Create Account
+    </ion-button>
 
-</ion-list>
+  </ion-list>
+</form>

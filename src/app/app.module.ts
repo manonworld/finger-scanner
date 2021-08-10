@@ -9,12 +9,19 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 import { HTTP } from '@ionic-native/http/ngx';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [
+    BrowserModule, 
+    IonicModule.forRoot(), 
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
   providers: [
     FingerprintAIO,
     HTTP,
