@@ -6,22 +6,28 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true" class="ion-padding center-align">
 
   <!-- <ion-button expand="full" fill="outline" (click)="sendRequest()">
     Get Secure Data
   </ion-button> -->
 
-  <ion-button expand="block" routerLink="/login" routerDirection="forward">
-    Login
-  </ion-button>
+  <app-logo></app-logo>  
 
-  <ion-button expand="block" routerLink="/register" routerDirection="forward">
-    Register
-  </ion-button>
+  <div class="buttons-section-margin">
 
-  <ion-button expand="block" routerLink="/forgot" routerDirection="forward">
-    Forgot Your Credentials
-  </ion-button>
+    <ion-button expand="block" routerLink="/login" routerDirection="forward" class="button-shadow">
+      Login
+    </ion-button>
+
+    <ion-button expand="block" routerLink="/register" routerDirection="forward" class="button-shadow">
+      Register
+    </ion-button>
+
+    <ion-button expand="block" routerLink="/forgot" routerDirection="forward" class="button-shadow">
+      Forgot Your Credentials
+    </ion-button>
+
+  </div>
 
 </ion-content>
