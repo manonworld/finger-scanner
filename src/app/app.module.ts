@@ -10,7 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 import { HTTP } from '@ionic-native/http/ngx';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { SQLite } from '@ionic-native/sqlite/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +25,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   providers: [
     FingerprintAIO,
     HTTP,
+    SQLite,
     { 
       provide: RouteReuseStrategy, 
       useClass: IonicRouteStrategy 
@@ -32,4 +33,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+
+  constructor(  ) {  }
+
+}

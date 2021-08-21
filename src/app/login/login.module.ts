@@ -8,6 +8,7 @@ import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
 import { HomeButtonComponent } from '../home-button/home-button.component';
+import { FingerprintComponent } from './fingerprint/fingerprint.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,10 @@ import { HomeButtonComponent } from '../home-button/home-button.component';
     IonicModule,
     LoginPageRoutingModule
   ],
-  declarations: [LoginPage, HomeButtonComponent]
+  declarations: [
+    LoginPage, 
+    HomeButtonComponent,
+    FingerprintComponent
+  ]
 })
 export class LoginPageModule {}

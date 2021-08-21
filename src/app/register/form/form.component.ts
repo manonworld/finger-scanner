@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HTTP } from '@ionic-native/http/ngx';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { DbService } from '../../services/db.service';
 
 @Component({
   selector: 'app-form',
@@ -11,7 +12,11 @@ export class FormComponent implements OnInit {
 
   @Input() account: FormGroup;
 
-  constructor( private http: HTTP, private formBuilder: FormBuilder ) {}
+  constructor( 
+    private http: HTTP, 
+    private formBuilder: FormBuilder,
+    private db: DbService
+  ) {}
 
   ngOnInit() {
     this.account = this.formBuilder.group({
@@ -19,6 +24,7 @@ export class FormComponent implements OnInit {
       password: ['', Validators.required],
       confirmation: ['', Validators.required]
     });
+    this.db.createDb();
   }
 
   createAccount()
@@ -30,7 +36,7 @@ export class FormComponent implements OnInit {
       "Content-Type": "application/json"
     })
       .then(data => {
-        alert(data);
+        alert(data.data);
       })
       .catch(error => {
         alert(error.error);
