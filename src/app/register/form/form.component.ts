@@ -29,14 +29,18 @@ export class FormComponent implements OnInit {
 
   createAccount()
   {
+    this.http.setHeader('*', 'Content-Type', 'application/json');
+    this.http.setDataSerializer('json');
     this.http.post('https://api.manonworld.de/register', {
       "email": this.account.get('email').value,
       "password": this.account.get('password').value
-    }, {
-      "Content-Type": "application/json"
-    })
+    }, {})
       .then(data => {
-        alert(data.data);
+        this.db.saveUser(
+          data.data.email,
+          data.data.apiToken,
+          this.account.get('password').value
+        );
       })
       .catch(error => {
         alert(error.error);
