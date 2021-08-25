@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 import { HTTP } from '@ionic-native/http/ngx';
+import { DbService } from '../../services/db.service';
 
 @Component({
   selector: 'app-fingerprint',
@@ -11,11 +12,11 @@ export class FingerprintComponent implements OnInit {
 
   dbData: any;
 
-  constructor(private faio: FingerprintAIO, private http: HTTP) { }
+  constructor(private faio: FingerprintAIO, private http: HTTP, private db: DbService) { }
 
   ngOnInit() {}
 
-  authenticate() {
+  authenticateUsingFingerprint() {
     this.faio.isAvailable().then((result: any) => {
       this.faio.show({
         cancelButtonTitle: 'Cancel',
@@ -26,16 +27,7 @@ export class FingerprintComponent implements OnInit {
         subtitle: 'Authenticate Using Fingerprint'
       })
         .then((result: any) => {
-          this.http.get('https://run.mocky.io/v3/b9f61a48-bb5b-44e3-affe-7d17f22c184b', {}, {})
-            .then(data => {
-              // this.dbData = JSON.parse().data;
-              alert(data.data);
-            })
-            .catch(error => {
-              alert(error.status);
-              alert(error.error);
-              alert(error.headers);
-            });
+          this.performServerAuth();
         })
         .catch((error: any) => {
           alert(error);
@@ -45,6 +37,12 @@ export class FingerprintComponent implements OnInit {
       .catch((error: any) => {
         alert(error);
       });
+  }
+
+  performServerAuth(): any {
+    this.db.getUser().then((data) => {
+      alert(JSON.stringify(data));
+    });
   }
 
 }

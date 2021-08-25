@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { HTTP } from '@ionic-native/http/ngx';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { DbService } from '../../services/db.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form',
@@ -15,7 +16,8 @@ export class FormComponent implements OnInit {
   constructor( 
     private http: HTTP, 
     private formBuilder: FormBuilder,
-    private db: DbService
+    private db: DbService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -36,14 +38,16 @@ export class FormComponent implements OnInit {
       "password": this.account.get('password').value
     }, {})
       .then(data => {
+        let result = JSON.parse(data.data);
         this.db.saveUser(
-          data.data.email,
-          data.data.apiToken,
-          this.account.get('password').value
+          result.email,
+          this.account.get('password').value,
+          result.apiToken,
         );
+        this.router.navigate(['/login'])
       })
       .catch(error => {
-        alert(error.error);
+        console.log(error.error);
       });
   }
 
