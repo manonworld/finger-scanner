@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
-import { HTTP } from '@ionic-native/http/ngx';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DbService {
 
-  constructor( private sqlite: SQLite, private http: HTTP ) {  }
+  constructor( private sqlite: SQLite ) {  }
 
   createDb() {
     this.connect().then((db: SQLiteObject) => {
@@ -27,7 +26,7 @@ export class DbService {
     .catch(e => alert(JSON.stringify(e)));
   }
 
-  getUser() {
+  getUser(): any {
     return new Promise((resolve) => {
       this.connect().then((db: SQLiteObject) => {
         db.executeSql('SELECT email, password, apiToken FROM user LIMIT 1', [])

@@ -12,7 +12,11 @@ export class FingerprintComponent implements OnInit {
 
   dbData: any;
 
-  constructor(private faio: FingerprintAIO, private http: HTTP, private db: DbService) { }
+  constructor(
+    private faio: FingerprintAIO, 
+    private http: HTTP, 
+    private db: DbService
+  ) { }
 
   ngOnInit() {}
 
@@ -26,22 +30,34 @@ export class FingerprintComponent implements OnInit {
         fallbackButtonTitle: 'Back',
         subtitle: 'Authenticate Using Fingerprint'
       })
-        .then((result: any) => {
-          this.performServerAuth();
-        })
-        .catch((error: any) => {
-          alert(error);
-        });
-
-    })
+      .then((result: any) => {
+        this.performServerAuth();
+      })
       .catch((error: any) => {
         alert(error);
       });
+
+    })
+    .catch((error: any) => {
+      alert(error);
+    });
   }
 
   performServerAuth(): any {
-    this.db.getUser().then((data) => {
-      alert(JSON.stringify(data));
+    this.db.getUser().then( ( data ) => {
+      this.http.setHeader('*', 'Content-Type', 'application/json');
+      this.http.setHeader('*', 'X-AUTH-TOKEN', data.apiToken);
+      this.http.setDataSerializer('json');
+      this.http.post('https://api.manonworld.de/login', {
+        "email": data.email,
+        "password": data.password
+      }, {})
+        .then(( data ) => {
+          alert(JSON.stringify(data));
+        })
+        .catch ((e) => {
+          alert(JSON.stringify(e));
+        });
     });
   }
 
