@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { HTTP } from '@ionic-native/http/ngx';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { DbService } from '../../services/db.service';
+import { ToastService } from '../../services/toast.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,7 +18,8 @@ export class FormComponent implements OnInit {
     private http: HTTP, 
     private formBuilder: FormBuilder,
     private db: DbService,
-    private router: Router
+    private router: Router,
+    private toast: ToastService
   ) {}
 
   ngOnInit() {
@@ -47,7 +49,13 @@ export class FormComponent implements OnInit {
         this.router.navigate(['/login'])
       })
       .catch(error => {
-        console.log(error.error);
+        let errors = JSON.parse(error.error);
+        if ( error.status === 422 ) {
+          for ( let i = 0; i < errors.length; i++ ) {
+            if ( errors[i].messageTemplate )
+              this.toast.presentToast('danger', 4000, errors[i].messageTemplate);
+          }
+        }
       });
   }
 
