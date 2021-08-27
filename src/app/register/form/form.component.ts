@@ -4,6 +4,8 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { DbService } from '../../services/db.service';
 import { ToastService } from '../../services/toast.service';
 import { Router } from '@angular/router';
+import { EmailValidatorService } from '../../services/validators/email-validator.service';
+import { PasswordValidatorService } from '../../services/validators/password-validator.service';
 
 @Component({
   selector: 'app-form',
@@ -24,15 +26,14 @@ export class FormComponent implements OnInit {
 
   ngOnInit() {
     this.account = this.formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required],
-      confirmation: ['', Validators.required]
+      email: [ '', Validators.compose([ Validators.required, EmailValidatorService.isValid ]) ],
+      password: [ '', Validators.compose([ Validators.required, PasswordValidatorService.isValid ]) ],
+      confirmation: [ '', Validators.compose([ Validators.required, PasswordValidatorService.isValid ]) ]
     });
     this.db.createDb();
   }
 
-  createAccount()
-  {
+  createAccount() {
     this.http.setHeader('*', 'Content-Type', 'application/json');
     this.http.setDataSerializer('json');
     this.http.post('https://api.manonworld.de/register', {
@@ -46,7 +47,7 @@ export class FormComponent implements OnInit {
           this.account.get('password').value,
           result.apiToken,
         );
-        this.router.navigate(['/login'])
+        this.router.navigate(['/login']);
       })
       .catch(error => {
         let errors = JSON.parse(error.error);
