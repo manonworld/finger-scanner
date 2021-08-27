@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { EmailValidatorService } from '../../services/validators/email-validator.service';
 import { PasswordValidatorService } from '../../services/validators/password-validator.service';
 
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -15,6 +16,8 @@ import { PasswordValidatorService } from '../../services/validators/password-val
 export class FormComponent implements OnInit {
 
   @Input() account: FormGroup;
+
+  private captchaPassed: boolean;
 
   constructor( 
     private http: HTTP, 
@@ -28,9 +31,17 @@ export class FormComponent implements OnInit {
     this.account = this.formBuilder.group({
       email: [ '', Validators.compose([ Validators.required, EmailValidatorService.isValid ]) ],
       password: [ '', Validators.compose([ Validators.required, PasswordValidatorService.isValid ]) ],
-      confirmation: [ '', Validators.compose([ Validators.required, PasswordValidatorService.isValid ]) ]
+      confirmation: [ '', Validators.compose([ Validators.required, PasswordValidatorService.isValid ]) ],
+      captcha: ['', Validators.required]
     });
     this.db.createDb();
+  }
+
+  resolved(response: string) {
+    alert(`Resolved captcha with response: ${response}`);
+    if(response != null && response != undefined) {
+      this.captchaPassed = !this.captchaPassed;
+    }
   }
 
   createAccount() {
@@ -54,7 +65,7 @@ export class FormComponent implements OnInit {
         if ( error.status === 422 ) {
           for ( let i = 0; i < errors.length; i++ ) {
             if ( errors[i].messageTemplate )
-              this.toast.presentToast('danger', 4000, errors[i].messageTemplate);
+              this.toast.presentToast('danger', 2000, errors[i].messageTemplate);
           }
         }
       });

@@ -17,7 +17,7 @@ import { SQLite } from '@ionic-native/sqlite/ngx';
   entryComponents: [],
   imports: [
     BrowserModule, 
-    IonicModule.forRoot(), 
+    IonicModule.forRoot(),
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule
