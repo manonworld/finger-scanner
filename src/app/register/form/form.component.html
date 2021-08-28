@@ -16,8 +16,10 @@
       <ion-input type="password" formControlName="confirmation"></ion-input>
     </ion-item>
 
-    <re-captcha (resolved)="resolved($event)"></re-captcha>
-    
+    <ion-item>
+      <re-captcha class="captcha" (resolved)="resolved($event)"></re-captcha>
+    </ion-item>
+
     <ion-button expand="block" type="submit" [disabled]="!account.valid" class="top-margin">
       Create Account
     </ion-button>

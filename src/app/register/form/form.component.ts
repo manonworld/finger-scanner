@@ -16,8 +16,8 @@ import { PasswordValidatorService } from '../../services/validators/password-val
 export class FormComponent implements OnInit {
 
   @Input() account: FormGroup;
-
-  private captchaPassed: boolean;
+  private recaptchaPassed: boolean;
+  private recaptchaValue: string;
 
   constructor( 
     private http: HTTP, 
@@ -31,44 +31,46 @@ export class FormComponent implements OnInit {
     this.account = this.formBuilder.group({
       email: [ '', Validators.compose([ Validators.required, EmailValidatorService.isValid ]) ],
       password: [ '', Validators.compose([ Validators.required, PasswordValidatorService.isValid ]) ],
-      confirmation: [ '', Validators.compose([ Validators.required, PasswordValidatorService.isValid ]) ],
-      captcha: ['', Validators.required]
+      confirmation: [ '', Validators.compose([ Validators.required, PasswordValidatorService.isValid ]) ]
     });
     this.db.createDb();
   }
 
   resolved(response: string) {
-    alert(`Resolved captcha with response: ${response}`);
     if(response != null && response != undefined) {
-      this.captchaPassed = !this.captchaPassed;
+      this.recaptchaPassed  = true;
+      this.recaptchaValue   = response;
     }
   }
 
   createAccount() {
-    this.http.setHeader('*', 'Content-Type', 'application/json');
-    this.http.setDataSerializer('json');
-    this.http.post('https://api.manonworld.de/register', {
-      "email": this.account.get('email').value,
-      "password": this.account.get('password').value
-    }, {})
-      .then(data => {
-        let result = JSON.parse(data.data);
-        this.db.saveUser(
-          result.email,
-          this.account.get('password').value,
-          result.apiToken,
-        );
-        this.router.navigate(['/login']);
-      })
-      .catch(error => {
-        let errors = JSON.parse(error.error);
-        if ( error.status === 422 ) {
-          for ( let i = 0; i < errors.length; i++ ) {
-            if ( errors[i].messageTemplate )
-              this.toast.presentToast('danger', 2000, errors[i].messageTemplate);
+    if( this.recaptchaPassed ) {
+      this.http.setHeader('*', 'Content-Type', 'application/json');
+      this.http.setDataSerializer('json');
+      this.http.post('https://api.manonworld.de/register', {
+        "email": this.account.get('email').value,
+        "password": this.account.get('password').value
+      }, {})
+        .then(data => {
+          let result = JSON.parse(data.data);
+          this.db.saveUser(
+            result.email,
+            this.account.get('password').value,
+            result.apiToken,
+          );
+          this.toast.presentToast('success', 2000, 'Successfully Created the Account. Redirecting ...');
+          this.router.navigate(['/login']);
+        })
+        .catch(error => {
+          let errors = JSON.parse(error.error);
+          if ( error.status === 422 ) {
+            for ( let i = 0; i < errors.length; i++ ) {
+              if ( errors[i].messageTemplate )
+                this.toast.presentToast('danger', 2000, errors[i].messageTemplate);
+            }
           }
-        }
-      });
+        });
+    }
   }
 
 }
